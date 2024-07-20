@@ -9,6 +9,9 @@
 #include <ESPAsyncWebServer.h>
 #include <TaskScheduler.h>
 
+
+
+//##########################VARS#############################
 //SCHEDULER
 Scheduler ts;
 
@@ -23,10 +26,8 @@ uint32_t s = 0;
 //SENSOR
 DHT dht(5, DHT11);
 int32_t temperature, humidity = 0;
+//###########################################################
 
-//WEBSERVER
-String ssid, password;
-AsyncWebServer server(80);
 
 
 void update_vars() {
@@ -60,53 +61,11 @@ void update_screen() {
     tft.drawCentreString(str, 100, 52, 1);
 }
 
-
-//Webserver Functions
-void postaction(AsyncWebServerRequest *request) {
-    Serial.println("POST recieved!");
-    int params = request->params();
-    for (int i = 0; i < params; i++) {
-        AsyncWebParameter *p = request->getParam(i);
-        Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-    //request->send_P(200, "text/html", index_html);
-    //server.end();
-    //start normal server task
-}
-
-void handle_wifi_tasks() {
-    File file = LittleFS.open("/settings.txt", "r");
-    IPAddress ip(192, 168, 0, 1);
-    IPAddress gateway(192, 168, 0, 1);
-    IPAddress subnet(255, 255, 255, 0);
-    WiFi.softAPConfig(ip, gateway, subnet);
-    WiFi.softAP("NodeMCU Hotspot", "123456789");
-
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(LittleFS, "/site/index.html", "text/html");
-    });
-
-    server.on("/", HTTP_POST, postaction);
-
-    server.serveStatic("/", LittleFS, "/site/");
-
-    server.begin();
-
-    /*
-     while (file.available()) {
-        ssid = file.readStringUntil('\n');
-        password = file.readString();
-    }
-    file.close();
-    WiFi.begin(ssid, password);
-     */
-
-}
-
-
-Task screen_update(1000, TASK_FOREVER, &update_screen);
-Task vars_update(1000, TASK_FOREVER, &update_vars);
+//TASKS
+Task screen_update_task(1000, TASK_FOREVER, &update_screen);
+Task vars_update_task(1000, TASK_FOREVER, &update_vars);
 Task wifi_tasks(1000, TASK_ONCE, &handle_wifi_tasks);
+Task connect_wifi_task(1000, TASK_ONCE, &connect_to_wifi);
 
 void setup() {
     //init screen and sensor
@@ -115,17 +74,16 @@ void setup() {
     LittleFS.begin();
     prepare_screen();
 
-    //start Wifi (with the saved SSID and passwd if exists on the filesystem)
-    //if wifi hasnt been found within 10 sencs -> start hotsport with default values and the wifi finder html page
-    //else start the normal online page
-
-
-    ts.addTask(vars_update);
-    vars_update.enable();
-    ts.addTask(screen_update);
-    screen_update.enable();
+    //Register Tasks
+    ts.addTask(vars_update_task);
+    ts.addTask(screen_update_task);
     ts.addTask(wifi_tasks);
-    wifi_tasks.enableDelayed(1000);
+    ts.addTask(connect_wifi_task);
+
+    //Start Tasks
+    vars_update_task.enable();
+    screen_update_task.enable();
+    wifi_tasks.enable();
 }
 
 void loop() {
