@@ -1,5 +1,5 @@
-#ifndef NODEMCU_THERMAL_MONITOR_SENSOR_H
-#define NODEMCU_THERMAL_MONITOR_SENSOR_H
+#ifndef SENSOR_H
+#define SENSOR_H
 
 #include "DHT.h"
 
@@ -11,4 +11,4 @@ extern int32_t temperature, humidity;
 
 extern void update_vars();
 
-#endif //NODEMCU_THERMAL_MONITOR_SENSOR_H
+#endif //SENSOR_H

@@ -1,5 +1,5 @@
-#ifndef NODEMCU_THERMAL_MONITOR_IMAGES_H
-#define NODEMCU_THERMAL_MONITOR_IMAGES_H
+#ifndef IMAGES_H
+#define IMAGES_H
 
 const uint8_t img_thermometer_map[] PROGMEM = {
         0x03, 0xf0, 0x00,
@@ -80,4 +80,4 @@ const uint8_t img_water_drop_map[] PROGMEM = {
         0x00, 0xff, 0x80, 0x00,
 };
 
-#endif //NODEMCU_THERMAL_MONITOR_IMAGES_H
+#endif //IMAGES_H

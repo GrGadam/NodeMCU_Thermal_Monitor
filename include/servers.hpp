@@ -1,9 +1,9 @@
-#ifndef NODEMCU_THERMAL_MONITOR_SERVERS_H
-#define NODEMCU_THERMAL_MONITOR_SERVERS_H
+#ifndef SERVERS_H
+#define SERVERS_H
 
 #include "ESPAsyncWebServer.h"
 #include <LittleFS.h>
-#include "tasks.h"
+#include "header.hpp"
 
 extern String ssid, password;
 extern WiFiClient client;
@@ -17,4 +17,4 @@ extern void connect_to_wifi();
 extern void start_wifi_page();
 extern void start_main_page();
 
-#endif //NODEMCU_THERMAL_MONITOR_SERVERS_H
+#endif //SERVERS_H

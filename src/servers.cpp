@@ -1,7 +1,9 @@
-#include "servers.h"
+#include "servers.hpp"
 
 AsyncWebServer server(80);
 u_int8_t retries = 0;
+String ssid, password;
+AsyncWebParameter *awp;
 
 //start WIFI (with the saved SSID and passwd if exists on the filesystem)
 //if WIFI hasn't been found within 10 sencs -> start hotsport with default values and the wifi finder html page
@@ -15,10 +17,6 @@ void handle_wifi_tasks() {
     File file = LittleFS.open("/wifi_credentials.txt", "r");
     ssid = file.readStringUntil('\n');
     password = file.readString();
-
-    connect_wifi_task.enable();
-
-
 
     IPAddress ip(192, 168, 0, 1);
     IPAddress gateway(192, 168, 0, 1);

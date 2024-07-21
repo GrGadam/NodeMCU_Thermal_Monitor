@@ -1,4 +1,4 @@
-#include "sensor.h"
+#include "sensor.hpp"
 
 int32_t  temperature, humidity = 0;
 DHT dht(5, DHT11);
