@@ -1,7 +1,6 @@
 #ifndef NODEMCU_THERMAL_MONITOR_SENSOR_H
 #define NODEMCU_THERMAL_MONITOR_SENSOR_H
 
-#include <Arduino.h>
 #include "DHT.h"
 
 extern char *timestring;

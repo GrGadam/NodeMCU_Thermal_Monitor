@@ -1,8 +1,5 @@
 #include "servers.h"
 
-String ssid, password;
-WiFiClient client;
-AsyncWebParameter *awp;
 AsyncWebServer server(80);
 u_int8_t retries = 0;
 

@@ -5,6 +5,10 @@
 #include <LittleFS.h>
 #include "tasks.h"
 
+extern String ssid, password;
+extern WiFiClient client;
+extern AsyncWebParameter *awp;
+extern AsyncWebServer server;
 extern u_int8_t retries;
 
 extern void postaction(AsyncWebServerRequest *request);

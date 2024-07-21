@@ -3,7 +3,6 @@
 
 #include "TaskScheduler.h"
 #include "screen.h"
-#include "sensor.h"
 #include "servers.h"
 
 extern Scheduler ts;
