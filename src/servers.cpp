@@ -1,15 +1,18 @@
 #include "servers.h"
-#include "ESPAsyncWebServer.h"
 
 String ssid, password;
-AsyncWebServer server(80);
 WiFiClient client;
 AsyncWebParameter *awp;
+AsyncWebServer server(80);
 u_int8_t retries = 0;
 
-//start Wifi (with the saved SSID and passwd if exists on the filesystem)
-//if wifi hasnt been found within 10 sencs -> start hotsport with default values and the wifi finder html page
+//start WIFI (with the saved SSID and passwd if exists on the filesystem)
+//if WIFI hasn't been found within 10 sencs -> start hotsport with default values and the wifi finder html page
 //else start the normal online page
+
+void connect_to_wifi() {
+
+}
 
 void handle_wifi_tasks() {
     File file = LittleFS.open("/wifi_credentials.txt", "r");
@@ -57,4 +60,12 @@ void postaction(AsyncWebServerRequest *request) {
     //request->send_P(200, "text/html", index_html);
     //server.end();
     //start normal server task
+}
+
+void start_wifi_page() {
+
+}
+
+void start_main_page() {
+
 }
